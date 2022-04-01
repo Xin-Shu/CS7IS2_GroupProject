@@ -1,13 +1,17 @@
 import os
 import sys
-import pandas as pd
+import datetime
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+import get_data
+
+sudokuFilePath = '../dataset/sudoku.csv'
 inputFilePath = '../dataset/input.csv'
 outputFilePath = '../dataset/output.csv'
 modelFilePath = '../dataset/trainedCNNModel.h5'
@@ -43,6 +47,7 @@ def dnnArchitecture(inputSize, numClasses):
     model.add(layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'))
     model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(128, kernel_size=(1, 1), activation='relu', padding='same'))
+    model.add(layers.Dropout(0.4))
     model.add(layers.Flatten())
 
     model.add(layers.Dense(81 * 9))
@@ -62,10 +67,10 @@ def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
     callbacks = [
         keras.callbacks.ModelCheckpoint(modelPath, save_best_only=True)
     ]
-    epochs = 10
+    epochs = 40
     history = model.fit(
-        trainData, testTarget, validation_split=0.2,
-        batch_size=32, epochs=epochs, callbacks=callbacks
+        trainData, testTarget, validation_split=0.3,
+        batch_size=1024, epochs=epochs, callbacks=callbacks
     )
 
     # list all data in history
@@ -97,11 +102,18 @@ def main(args):
     keras.backend.clear_session()
     os.environ['DML_VISIBLE_DEVICES'] = '0'
 
-    trainSet, targetSet = extractCSV(inputFilePath, outputFilePath, lengthData)
+    timeStamp = datetime.datetime.now()
+
+    # trainSet, targetSet = extractCSV(inputFilePath, outputFilePath, lengthData)
     # trainSet = keras.utils.to_categorical(trainSet, numOfClasses)
     # targetSet = keras.utils.to_categorical(targetSet, numOfClasses)
 
-    trainModel(modelFilePath, trainSet, targetSet, inputDataSize, numOfClasses)
+    x_train, x_test, y_train, y_test = get_data.extractCSV(sudokuFilePath, lengthData)
+
+    timeDiffer = datetime.datetime.now() - timeStamp
+    print(f'INFO: Finished dataset preparation, total time taken: {timeDiffer}.')
+
+    trainModel(modelFilePath, x_train, y_train, inputDataSize, numOfClasses)
 
 
 if __name__ == '__main__':
