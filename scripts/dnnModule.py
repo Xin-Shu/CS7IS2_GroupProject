@@ -14,10 +14,10 @@ import get_data
 sudokuFilePath = '../dataset/sudoku.csv'
 inputFilePath = '../dataset/input.csv'
 outputFilePath = '../dataset/output.csv'
-modelFilePath = '../dataset/trainedCNNModel.h5'
+modelFilePath = '../dataset/trainedDNNModel.h5'
 
 inputDataSize, numOfClasses = 81, 10
-lengthData = 100000
+lengthData = 1000000
 
 
 def extractCSV(inputPath, outputPath, lenData):
@@ -38,18 +38,16 @@ def extractCSV(inputPath, outputPath, lenData):
 
 def dnnArchitecture(inputSize, numClasses):
 
-    inputSize_ = inputSize
-
-    model = keras.Sequential()
+    model = keras.models.Sequential()
 
     model.add(layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same', input_shape=(9, 9, 1)))
     model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'))
     model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(128, kernel_size=(1, 1), activation='relu', padding='same'))
-    model.add(layers.Dropout(0.4))
-    model.add(layers.Flatten())
 
+    model.add(layers.Dropout(0.3))
+    model.add(layers.Flatten())
     model.add(layers.Dense(81 * 9))
     model.add(layers.Reshape((-1, 9)))
     model.add(layers.Activation('softmax'))
@@ -60,17 +58,17 @@ def dnnArchitecture(inputSize, numClasses):
 def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
 
     model = dnnArchitecture(inputSize, numClasses)
-    adam = keras.optimizers.Adam(lr=0.001)
+    adam = keras.optimizers.Adam(lr=0.0005)
 
     model.compile(loss='sparse_categorical_crossentropy', optimizer=adam)
     model.summary()
     callbacks = [
         keras.callbacks.ModelCheckpoint(modelPath, save_best_only=True)
     ]
-    epochs = 40
+    epochs = 20
     history = model.fit(
-        trainData, testTarget, validation_split=0.3,
-        batch_size=1024, epochs=epochs, callbacks=callbacks
+        trainData, testTarget, validation_split=0.2,
+        batch_size=512, epochs=epochs, callbacks=callbacks
     )
 
     # list all data in history
@@ -100,7 +98,7 @@ def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
 
 def main(args):
     keras.backend.clear_session()
-    os.environ['DML_VISIBLE_DEVICES'] = '0'
+    # os.environ['DML_VISIBLE_DEVICES'] = '0'
 
     timeStamp = datetime.datetime.now()
 

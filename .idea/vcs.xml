@@ -2,8 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/AmazingBrick_PiperLiu/Amazing-Brick-DFS-and-DRL" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/RubicCube/rubiks-cube-solver" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/sudoku_backtracking/Sudoku-GUI" vcs="Git" />
   </component>
 </project>
