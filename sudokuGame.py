@@ -3,10 +3,13 @@ import Sudoku
 import pygame
 import numpy as np
 
-from scripts import inferenceSudoku
+# Solution scriptes
 import tensorflow as tf
+from scripts import inferenceSudoku
+from scripts import solver
 
-model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
+
+# model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
 
 # initialise the pygame font
 pygame.font.init()
@@ -238,11 +241,23 @@ while run:
                     [1, 2, 0, 0, 0, 7, 4, 0, 0],
                     [0, 4, 9, 2, 0, 6, 0, 0, 7]
                 ]
+
+            # Press 'l' to crack game, algorithm using 'inferenceSudoku'
             if event.key == pygame.K_l:
                 prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
                 grid = prediction
+
+            # Press 'l' to crack game, algorithm using 'inferenceSudoku'
+            if event.key == pygame.K_a:
+                digitCount, gridTemp = 0, ''
+                for i in range(0, len(grid)):
+                    for j in range(0, len(grid[i])):
+                        gridTemp += str(grid[i][j])
+                print(gridTemp)
+                grid = solver.solve(gridTemp, 1, 1)
+
     if flag2 == 1:
-        if solve(grid, 0, 0) == False:
+        if not solve(grid, 0, 0):
             error = 1
         else:
             rs = 1

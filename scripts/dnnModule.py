@@ -20,22 +20,6 @@ inputDataSize, numOfClasses = 81, 10
 lengthData = 1000000
 
 
-def extractCSV(inputPath, outputPath, lenData):
-    global inputDataSize
-    inputArr, outputArr = np.zeros((lenData, 9, 9, 1)), np.zeros((lenData, inputDataSize))
-    inputFile = pd.read_csv(inputPath)
-    outputFile = pd.read_csv(outputPath)
-
-    count = 0
-    while count < lenData:
-        x_in = np.array(inputFile.iloc[count, 1:]).reshape((9, 9, 1))
-        y_out = np.array(outputFile.iloc[count, 1:])
-        inputArr[count, :] = x_in
-        outputArr[count, :] = y_out
-        count += 1
-    return inputArr, outputArr
-
-
 def dnnArchitecture(inputSize, numClasses):
 
     model = keras.models.Sequential()
@@ -65,7 +49,7 @@ def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
     callbacks = [
         keras.callbacks.ModelCheckpoint(modelPath, save_best_only=True)
     ]
-    epochs = 20
+    epochs = 1
     history = model.fit(
         trainData, testTarget, validation_split=0.2,
         batch_size=512, epochs=epochs, callbacks=callbacks
@@ -73,16 +57,6 @@ def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
 
     # list all data in history
     print(history.history.keys())
-
-    # summarize history for accuracy
-    # fig1 = plt.figure(figsize=(8, 6))
-    # plt.title("Training history - Accuracy", fontsize=20)
-    # plt.plot(history.history['acc'])
-    # plt.plot(history.history['val_acc'])
-    # plt.ylabel('accuracy')
-    # plt.xlabel('epoch')
-    # plt.legend(['train', 'test'], loc='upper left')
-    # plt.savefig(f'../dataset/val_acc_plot.png', )
 
     # summarize history for loss
     fig2 = plt.figure(figsize=(8, 6))
@@ -101,13 +75,8 @@ def main(args):
     # os.environ['DML_VISIBLE_DEVICES'] = '0'
 
     timeStamp = datetime.datetime.now()
-
-    # trainSet, targetSet = extractCSV(inputFilePath, outputFilePath, lengthData)
-    # trainSet = keras.utils.to_categorical(trainSet, numOfClasses)
-    # targetSet = keras.utils.to_categorical(targetSet, numOfClasses)
-
+    print(f'INFO: Reading dataset from {os.path.basename(sudokuFilePath)}...')
     x_train, x_test, y_train, y_test = get_data.extractCSV(sudokuFilePath, lengthData)
-
     timeDiffer = datetime.datetime.now() - timeStamp
     print(f'INFO: Finished dataset preparation, total time taken: {timeDiffer}.')
 
