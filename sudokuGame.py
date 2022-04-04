@@ -1,4 +1,5 @@
 # import pygame library
+import time
 import Sudoku
 import pygame
 import numpy as np
@@ -7,9 +8,9 @@ import numpy as np
 import tensorflow as tf
 from scripts import inferenceSudoku
 from scripts import solver
+from scripts.geneticSolver import SudokuSolver
 
-
-# model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
+model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
 
 # initialise the pygame font
 pygame.font.init()
@@ -27,11 +28,11 @@ y = 0
 dif = 500 / 9
 val = 0
 # Default Sudoku Board.
-grid = Sudoku.exportSeries()
+grid = Sudoku.exportSeries(1)
 
 # Load test fonts for future use
-font1 = pygame.font.SysFont("comicsans", 30)
-font2 = pygame.font.SysFont("comicsans", 20)
+font1 = pygame.font.SysFont("comicsans", 15)
+font2 = pygame.font.SysFont("comicsans", 18)
 
 
 def get_cord(pos):
@@ -209,23 +210,27 @@ while run:
                 val = 9
             if event.key == pygame.K_RETURN:
                 flag2 = 1
-            # If R pressed clear the sudoku board
-            if event.key == pygame.K_r:
+            # If 'ctrl' + 1, reset grid to 'easy' mode
+            if event.key == pygame.K_1 and pygame.key.get_mods():
                 rs = 0
                 error = 0
                 flag2 = 0
-                grid = [
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0]
-                ]
-            # If D is pressed reset the board to default
+                grid = Sudoku.exportSeries(1)
+
+            # If 'ctrl' + 2, reset grid to 'medium' mode
+            if event.key == pygame.K_2 and pygame.key.get_mods():
+                rs = 0
+                error = 0
+                flag2 = 0
+                grid = Sudoku.exportSeries(2)
+            # If 'ctrl' + 3, reset grid to 'hard' mode
+            if event.key == pygame.K_3 and pygame.key.get_mods():
+                rs = 0
+                error = 0
+                flag2 = 0
+                grid = Sudoku.exportSeries(3)
+
+            # If D is pressed reset the board to defauet
             if event.key == pygame.K_d:
                 rs = 0
                 error = 0
@@ -244,8 +249,14 @@ while run:
 
             # Press 'l' to crack game, algorithm using 'inferenceSudoku'
             if event.key == pygame.K_l:
+                grid = np.array(grid)
+                start_ = time.time()
                 prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
-                grid = prediction
+                if prediction is not None:
+                    print(prediction)
+                    print("INFO: Algorithm DNN, Time used: {:6.2f} s".format(time.time() - start_))
+                    grid = prediction
+                    rs = 1
 
             # Press 'l' to crack game, algorithm using 'inferenceSudoku'
             if event.key == pygame.K_a:
@@ -255,6 +266,18 @@ while run:
                         gridTemp += str(grid[i][j])
                 print(gridTemp)
                 grid = solver.solve(gridTemp, 1, 1)
+            if event.key == pygame.K_g:  # Press <g> for genetic solver
+                grid = np.array(grid)
+                print("Solving using genetic algorithm...")
+                start_ = time.time()
+                genesolver = SudokuSolver()
+                solution = genesolver.solve(grid, populations=1000)
+                if solution:
+                    prediction = solution.values
+                    print(prediction)
+                    print("INFO: Algorithm Genetic Solver, Time used: {:6.2f} s".format(time.time() - start_))
+                    grid = prediction
+                    rs = 1
 
     if flag2 == 1:
         if not solve(grid, 0, 0):
@@ -266,7 +289,7 @@ while run:
         draw_val(val)
         # print(x)
         # print(y)
-        if valid(grid, int(x), int(y), val) == True:
+        if valid(grid, int(x), int(y), val):
             grid[int(x)][int(y)] = val
             flag1 = 0
         else:
@@ -288,4 +311,3 @@ while run:
 
 # Quit pygame window
 pygame.quit()
-

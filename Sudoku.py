@@ -61,13 +61,13 @@ def Check_Validity(board, row, col, num):
 def Generate_Unsolved_Puzzle(board, difficulty):
     count, done = 0, False
     if difficulty is "Easy":
-        print("Easy Difficulty Puzzle Generating...\n\n")
+        print("Easy Difficulty Puzzle Generating...\n")
         upper_limit = 35
     elif difficulty is "Medium":
-        print("Medium Difficulty Puzzle Generating...\n\n")
+        print("Medium Difficulty Puzzle Generating...\n")
         upper_limit = 41
     else:
-        print("Hard Difficulty Puzzle Generating...\n\n")
+        print("Hard Difficulty Puzzle Generating...\n")
         upper_limit = 47
     while True:
         i = random.randint(0, 8)
@@ -152,8 +152,8 @@ def Solve_Sudoku(board, not_check):
 
 # Inputs difficulty and initializes playing board
 
-def exportSeries():
-    ch = 4  # int(input("Hello!Choose the level of difficulty-\n1.Easy\n2.Medium\n3.Hard\nYour choice:"))
+def exportSeries(ch):
+    # ch = 4  # int(input("Hello!Choose the level of difficulty-\n1.Easy\n2.Medium\n3.Hard\nYour choice:"))
     if ch == 1:
         difficulty = "Easy"
     elif ch == 2:
