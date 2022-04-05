@@ -325,7 +325,8 @@ def main():
                         for j in range(0, len(grid[i])):
                             gridTemp += str(grid[i][j])
                     print(gridTemp)
-                    grid = solver.solve(gridTemp, 1, 1)
+                    solution = solver.solve(gridTemp, 1, 1)
+                    grid = list(solver.list_split(solution, 9))
 
                 # Press 'g' for genetic solver
                 if event.key == pygame.K_g:
