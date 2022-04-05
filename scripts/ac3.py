@@ -7,7 +7,7 @@ python implementation inspired by http://aima.cs.berkeley.edu/python/csp.html
 """
 
 
-def AC3(csp, queue=None):
+def AC3(csp,lists, queue=None):
     if queue is None:
         queue = list(csp.binary_constraints)
 
@@ -21,13 +21,12 @@ def AC3(csp, queue=None):
             if len(csp.possibilities[xi]) == 0:
                 return False
             if len(csp.possibilities[xi]) == 1:
-                # print("{}".format(csp))
-                pass
+                lists.append(list_return(csp))
             for Xk in csp.related_cells[xi]:
                 if Xk != xi:
                     queue.append((Xk, xi))
 
-    return True, csp
+    return True
 
 
 """
@@ -50,3 +49,14 @@ def remove_inconsistent_values(csp, cell_i, cell_j):
 
     # returns true if a value has been removed
     return removed
+
+def list_return(csp):
+    lists=[]
+    for cell in csp.cells:
+        if type(csp.possibilities[cell]) == list:
+            if len(csp.possibilities[cell]) > 1:
+                value = 0
+            else :
+                value = csp.possibilities[cell][0]
+        lists.append(value)
+    return lists
