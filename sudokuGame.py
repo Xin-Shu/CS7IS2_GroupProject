@@ -325,8 +325,12 @@ def main():
                         for j in range(0, len(grid[i])):
                             gridTemp += str(grid[i][j])
                     print(gridTemp)
+                    print("Solving using ac-3 algorithm...")
+                    start_ = time.time()
                     solution = solver.solve(gridTemp, 1, 1)
+                    print("INFO: Algorithm ac-3 Solver, Time used: {:6.2f} s".format(time.time() - start_))
                     grid = list(solver.list_split(solution, 9))
+                    rs=1
 
                 # Press 'g' for genetic solver
                 if event.key == pygame.K_g:
