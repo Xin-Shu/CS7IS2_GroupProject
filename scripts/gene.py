@@ -12,6 +12,7 @@ random.seed()
 
 gridSize = 9  # Size of Sudoku grid
 
+
 class Population(object):
     """ Population class
     

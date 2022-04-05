@@ -1,0 +1,6 @@
+numpy>=1.18.5
+future>=0.18.2
+pandas>=1.1.5
+matplotlib>=3.2.2
+pygame>=2.1.2
+tensorflow>=1.15.5

@@ -8,7 +8,8 @@ This is a GitHub repository which codes and analysis are submitted in partial fu
 - Yanxiang Chen, cheny16@tcd.ie
 
 ## Environment and packages
-**The version listed below are used, developed and tested. Using other versions may or may not compile the scripts.**
+**The version listed below are used, developed and tested.**\
+**Using other versions may or may not compile the scripts.**\
 **Packages that are not listed in here do not require specific version.**
 - Python 3.6.13 or higher
 - numpy 1.22.3
@@ -16,6 +17,19 @@ This is a GitHub repository which codes and analysis are submitted in partial fu
 - tensorflow:
   - On Intel and NVidia core: 1.15.5
   - On AMD Ryzen and Radeon core: tensorflow-directml 1.15.5, but require version of Python to be not higher than 3.6.*
+###Useage
+With an installed conda environmnet or python virtual environment:\
+`pip install ./requirement.txt`\
+\
+Compile sudoku game\
+`python sudokuGame.py`\
+Press 'q' to set an Easy level sudoku puzzle with up to 35 blanks.
+Press 'w' to set a medium level sudoku puzzle with up to 41 blanks.
+Press 'q' to set a hard level sudoku puzzle with up to 47 blanks.
+Press 's' to crack the game using algorithm **Backtracking**.
+Press 'l' to crack the game using algorithm **Deep Neural Network**, with a given pretrained model.
+Press 'g' to crack the game using algorithm **Genetic Solver**.
+
 
 ## Addressed and solved game
 Sudoku is a logic-based, combinatorial number-placement puzzle. In classic Sudoku, the objective is to fill a 9 × 9 grid with digits so that each column, each row, and each of the nine 3 × 3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9. The puzzle setter provides a partially completed grid, which for a well-posed puzzle has a single solution.

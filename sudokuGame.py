@@ -211,7 +211,7 @@ def main():
     while run:
 
         # White color background
-        screen.fill((255, 255, 255))
+        screen.fill((170, 170, 170))
         # Loop through the events stored in event.get()
         for event in pygame.event.get():
             # Quit the game windows
@@ -277,24 +277,7 @@ def main():
                     flag2 = 0
                     grid = Sudoku.exportSeries(3)
 
-                # If D is pressed reset the board to defauet
-                if event.key == pygame.K_o:
-                    rs = 0
-                    error = 0
-                    flag2 = 0
-                    grid = [
-                        [7, 8, 0, 4, 0, 0, 1, 2, 0],
-                        [6, 0, 0, 0, 7, 5, 0, 0, 9],
-                        [0, 0, 0, 6, 0, 1, 0, 7, 8],
-                        [0, 0, 7, 0, 4, 0, 2, 6, 0],
-                        [0, 0, 1, 0, 5, 0, 9, 3, 0],
-                        [9, 0, 4, 0, 6, 0, 0, 0, 5],
-                        [0, 7, 0, 3, 0, 0, 0, 1, 2],
-                        [1, 2, 0, 0, 0, 7, 4, 0, 0],
-                        [0, 4, 9, 2, 0, 6, 0, 0, 7]
-                    ]
-
-                # Press 'l' to crack game, algorithm using 'inferenceSudoku'
+                # Press 'l' to crack game, algorithm using 'backtracking'
                 if event.key == pygame.K_s:
                     start_ = time.time()
                     print(grid)
