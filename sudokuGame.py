@@ -7,7 +7,7 @@ import numpy as np
 # Solution scriptes
 import tensorflow as tf
 from scripts import inferenceSudoku
-from scripts import solver
+from scripts import ac3Solver
 from scripts.geneticSolver import SudokuSolver
 
 # model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
@@ -307,13 +307,11 @@ def main():
                     for i in range(0, len(grid)):
                         for j in range(0, len(grid[i])):
                             gridTemp += str(grid[i][j])
-                    print(gridTemp)
-                    print("Solving using ac-3 algorithm...")
                     start_ = time.time()
-                    solution = solver.solve(gridTemp, 1, 1)
+                    solution = ac3Solver.solve(gridTemp, 1, 1)
                     print("INFO: Algorithm ac-3 Solver, Time used: {:6.2f} s".format(time.time() - start_))
-                    grid = list(solver.list_split(solution, 9))
-                    rs=1
+                    grid = list(ac3Solver.list_split(solution, 9))
+                    rs = 1
 
                 # Press 'g' for genetic solver
                 if event.key == pygame.K_g:
