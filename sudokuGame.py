@@ -56,17 +56,17 @@ def draw_box():
 
 
 # Function to draw required lines for making Sudoku grid
-def draw():
+def draw(grid_):
     # Draw the lines
 
     for i in range(9):
         for j in range(9):
-            if grid[i][j] != 0:
+            if grid_[i][j] != 0:
                 # Fill blue color in already numbered grid
                 pygame.draw.rect(screen, (0, 153, 153), (i * dif, j * dif, dif + 1, dif + 1))
 
                 # Fill grid with default numbers specified
-                text1 = font1.render(str(grid[i][j]), 1, (0, 0, 0))
+                text1 = font1.render(str(grid_[i][j]), 1, (0, 0, 0))
                 screen.blit(text1, (i * dif + 15, j * dif + 15))
     # Draw lines horizontally and verticallyto form grid
     for i in range(10):
@@ -130,7 +130,7 @@ def solve(grid, i, j):
             y = j
             # white color background\
             screen.fill((255, 255, 255))
-            draw()
+            draw(grid)
             draw_box()
             pygame.display.update()
             pygame.time.delay(20)
@@ -141,7 +141,7 @@ def solve(grid, i, j):
             # white color background\
             screen.fill((255, 255, 255))
 
-            draw()
+            draw(grid)
             draw_box()
             pygame.display.update()
             pygame.time.delay(50)
@@ -368,7 +368,7 @@ def main():
             raise_error1()
         if rs == 1:
             result()
-        draw()
+        draw(grid)
         if flag1 == 1:
             draw_box()
         instruction()
