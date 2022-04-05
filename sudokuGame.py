@@ -20,15 +20,21 @@ screen = pygame.display.set_mode((500, 600))
 
 # Title and Icon
 pygame.display.set_caption("SUDOKU SOLVER USING BACKTRACKING")
-# img = pygame.image.load('icon.png')
-# pygame.display.set_icon(img)
 
 x = 0
 y = 0
 dif = 500 / 9
-val = 0
+
+
 # Default Sudoku Board.
 grid = Sudoku.exportSeries(1)
+
+boardIN = np.zeros((9, 9), dtype=int)
+rowFlag = np.zeros((9, 10), dtype=int)
+colFlag = np.zeros((9, 10), dtype=int)
+blockFlag = np.zeros((9, 10), dtype=int)
+blankpos = []
+dfsLoopNum = 0
 
 # Load test fonts for future use
 font1 = pygame.font.SysFont("comicsans", 15)
@@ -156,179 +162,236 @@ def result():
     screen.blit(text1, (20, 570))
 
 
-run = True
-flag1 = 0
-flag2 = 0
-rs = 0
-error = 0
-# The loop thats keep the window running
-while run:
+def getBlockNum(r, c):
+    rr = r // 3
+    cc = c // 3
+    return rr * 3 + cc
 
-    # White color background
-    screen.fill((255, 255, 255))
-    # Loop through the events stored in event.get()
-    for event in pygame.event.get():
-        # Quit the game window
-        if event.type == pygame.QUIT:
-            run = False
-        # Get the mouse position to insert number
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            flag1 = 1
-            pos = pygame.mouse.get_pos()
-            get_cord(pos)
-        # Get the number to be inserted if key pressed
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                x -= 1
+
+def setallflag(i, j, num, f):
+    rowFlag[i][num] = f
+    colFlag[j][num] = f
+    blockFlag[getBlockNum(i, j)][num] = f
+
+
+def Isok(i, j, num):
+    if (rowFlag[i][num] or colFlag[j][num] or blockFlag[getBlockNum(i, j)][num]) == 0:
+        return 1
+    else:
+        return 0
+
+
+def Dfs(n):
+    global grid, dfsLoopNum
+    dfsLoopNum += 1
+    if n < 0:
+        return 1
+    r = blankpos[n][0]
+    c = blankpos[n][1]
+    for num in range(1, 10):
+        if Isok(r, c, num):
+            grid[r][c] = num
+            setallflag(r, c, num, 1)
+            if Dfs(n - 1):
+                return 1
+            setallflag(r, c, num, 0)
+    return 0
+
+
+def main():
+
+    global grid, x, y
+    global rowFlag, colFlag, blockFlag, blankpos, dfsLoopNum
+
+    flag1, flag2 = 0, 0
+    rs, error, val = 0, 0, 0
+    model = []
+    run = True
+    # The loop thats keep the window running
+    while run:
+
+        # White color background
+        screen.fill((255, 255, 255))
+        # Loop through the events stored in event.get()
+        for event in pygame.event.get():
+            # Quit the game windows
+            if event.type == pygame.QUIT:
+                run = False
+            # Get the mouse position to insert number
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 flag1 = 1
-            if event.key == pygame.K_RIGHT:
-                x += 1
-                flag1 = 1
-            if event.key == pygame.K_UP:
-                y -= 1
-                flag1 = 1
-            if event.key == pygame.K_DOWN:
-                y += 1
-                flag1 = 1
-            if event.key == pygame.K_1:
-                val = 1
-            if event.key == pygame.K_2:
-                val = 2
-            if event.key == pygame.K_3:
-                val = 3
-            if event.key == pygame.K_4:
-                val = 4
-            if event.key == pygame.K_5:
-                val = 5
-            if event.key == pygame.K_6:
-                val = 6
-            if event.key == pygame.K_7:
-                val = 7
-            if event.key == pygame.K_8:
-                val = 8
-            if event.key == pygame.K_9:
-                val = 9
-            if event.key == pygame.K_RETURN:
-                flag2 = 1
-            # If 'q', reset grid to 'easy' mode
-            if event.key == pygame.K_q:
-                print(pygame.key.get_mods())
-                rs = 0
-                error = 0
-                flag2 = 0
-                grid = Sudoku.exportSeries(1)
+                pos = pygame.mouse.get_pos()
+                get_cord(pos)
+            # Get the number to be inserted if key pressed
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    x -= 1
+                    flag1 = 1
+                if event.key == pygame.K_RIGHT:
+                    x += 1
+                    flag1 = 1
+                if event.key == pygame.K_UP:
+                    y -= 1
+                    flag1 = 1
+                if event.key == pygame.K_DOWN:
+                    y += 1
+                    flag1 = 1
+                if event.key == pygame.K_1:
+                    val = 1
+                if event.key == pygame.K_2:
+                    val = 2
+                if event.key == pygame.K_3:
+                    val = 3
+                if event.key == pygame.K_4:
+                    val = 4
+                if event.key == pygame.K_5:
+                    val = 5
+                if event.key == pygame.K_6:
+                    val = 6
+                if event.key == pygame.K_7:
+                    val = 7
+                if event.key == pygame.K_8:
+                    val = 8
+                if event.key == pygame.K_9:
+                    val = 9
+                if event.key == pygame.K_RETURN:
+                    flag2 = 1
+                # If 'q', reset grid to 'easy' mode
+                if event.key == pygame.K_q:
+                    print(pygame.key.get_mods())
+                    rs = 0
+                    error = 0
+                    flag2 = 0
+                    grid = Sudoku.exportSeries(1)
 
-            # If 'w', reset grid to 'medium' mode
-            if event.key == pygame.K_w:
-                rs = 0
-                error = 0
-                flag2 = 0
-                grid = Sudoku.exportSeries(2)
-            # If 'e', reset grid to 'hard' mode
-            if event.key == pygame.K_e:
-                rs = 0
-                error = 0
-                flag2 = 0
-                grid = Sudoku.exportSeries(3)
+                # If 'w', reset grid to 'medium' mode
+                if event.key == pygame.K_w:
+                    rs = 0
+                    error = 0
+                    flag2 = 0
+                    grid = Sudoku.exportSeries(2)
+                # If 'e', reset grid to 'hard' mode
+                if event.key == pygame.K_e:
+                    rs = 0
+                    error = 0
+                    flag2 = 0
+                    grid = Sudoku.exportSeries(3)
 
-            # If D is pressed reset the board to defauet
-            if event.key == pygame.K_o:
-                rs = 0
-                error = 0
-                flag2 = 0
-                grid = [
-                    [7, 8, 0, 4, 0, 0, 1, 2, 0],
-                    [6, 0, 0, 0, 7, 5, 0, 0, 9],
-                    [0, 0, 0, 6, 0, 1, 0, 7, 8],
-                    [0, 0, 7, 0, 4, 0, 2, 6, 0],
-                    [0, 0, 1, 0, 5, 0, 9, 3, 0],
-                    [9, 0, 4, 0, 6, 0, 0, 0, 5],
-                    [0, 7, 0, 3, 0, 0, 0, 1, 2],
-                    [1, 2, 0, 0, 0, 7, 4, 0, 0],
-                    [0, 4, 9, 2, 0, 6, 0, 0, 7]
-                ]
+                # If D is pressed reset the board to defauet
+                if event.key == pygame.K_o:
+                    rs = 0
+                    error = 0
+                    flag2 = 0
+                    grid = [
+                        [7, 8, 0, 4, 0, 0, 1, 2, 0],
+                        [6, 0, 0, 0, 7, 5, 0, 0, 9],
+                        [0, 0, 0, 6, 0, 1, 0, 7, 8],
+                        [0, 0, 7, 0, 4, 0, 2, 6, 0],
+                        [0, 0, 1, 0, 5, 0, 9, 3, 0],
+                        [9, 0, 4, 0, 6, 0, 0, 0, 5],
+                        [0, 7, 0, 3, 0, 0, 0, 1, 2],
+                        [1, 2, 0, 0, 0, 7, 4, 0, 0],
+                        [0, 4, 9, 2, 0, 6, 0, 0, 7]
+                    ]
 
-            # Press 'l' to crack game, algorithm using 'inferenceSudoku'
-            if event.key == pygame.K_l:
-                grid = np.array(grid)
-                start_ = time.time()
-                model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
-                print(f"INFO: Loaded DNN pre-trained model, time used: {time.time() - start_}")
-                prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
-                if prediction is not None:
-                    print(prediction)
-                    print("INFO: Algorithm DNN, Time used: {:.2f} s".format(time.time() - start_))
-                    grid = prediction
-                    rs = 1
+                # Press 'l' to crack game, algorithm using 'inferenceSudoku'
+                if event.key == pygame.K_s:
+                    start_ = time.time()
+                    print(grid)
+                    solve(grid, 0, 0)
+                    currentState = Sudoku.Find_Empty_Cell(grid)
+                    if currentState[2] == 0:
+                        print("INFO: Algorithm BackTracking, Time used: {:.2f} s".format(time.time() - start_))
+                        rs = 1
 
-            # Press 'l' to crack game, algorithm using 'ac3' and 'backTracking'
-            if event.key == pygame.K_a:
-                digitCount, gridTemp = 0, ''
-                for i in range(0, len(grid)):
-                    for j in range(0, len(grid[i])):
-                        gridTemp += str(grid[i][j])
-                print(gridTemp)
-                grid = solver.solve(gridTemp, 1, 1)
+                # Press 'l' to crack game, algorithm using 'DNN inference'
+                if event.key == pygame.K_l:
+                    grid = np.array(grid)
+                    start_ = time.time()
+                    if not model:
+                        model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
+                        print(f"INFO: Loaded DNN pre-trained model, time used: {time.time() - start_}")
+                    prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
+                    if prediction is not None:
+                        print(prediction)
+                        print("INFO: Algorithm DNN, Time used: {:.2f} s".format(time.time() - start_))
+                        grid = prediction
+                        rs = 1
 
-            # Press 'g' for genetic solver
-            if event.key == pygame.K_g:
-                grid = np.array(grid)
-                print("Solving using genetic algorithm...")
-                start_ = time.time()
-                genesolver = SudokuSolver()
-                solution = genesolver.solve(grid, populations=1000)
-                if solution:
-                    prediction = solution.values
-                    print(prediction)
-                    print("INFO: Algorithm Genetic Solver, Time used: {:6.2f} s".format(time.time() - start_))
-                    grid = prediction
-                    rs = 1
+                # Press 'l' to crack game, algorithm using 'ac3' and 'backTracking'
+                if event.key == pygame.K_a:
+                    digitCount, gridTemp = 0, ''
+                    for i in range(0, len(grid)):
+                        for j in range(0, len(grid[i])):
+                            gridTemp += str(grid[i][j])
+                    print(gridTemp)
+                    grid = solver.solve(gridTemp, 1, 1)
 
-            # Press 'b' to crack game, algorithm using depth first search (baseline model)
-            if event.key == pygame.K_d:
-                from scripts.DFS_suduku import exportResult
-                start_ = time.time()
-                grid = np.array(grid)
-                print('grid: ', grid)
-                prediction = exportResult(grid)
-                print('prediction: ', prediction)
-                if prediction is not None:
-                    grid = prediction
-                    print("INFO: Algorithm DFS, Time used: {:6.2f} s".format(time.time() - start_))
-                    rs = 1
-                else:
-                    grid = prediction
-                    error = 1
+                # Press 'g' for genetic solver
+                if event.key == pygame.K_g:
+                    grid = np.array(grid)
+                    print("Solving using genetic algorithm...")
+                    start_ = time.time()
+                    genesolver = SudokuSolver()
+                    solution = genesolver.solve(grid, populations=1000)
+                    if solution:
+                        prediction = solution.values
+                        print(prediction)
+                        print("INFO: Algorithm Genetic Solver, Time used: {:6.2f} s".format(time.time() - start_))
+                        grid = prediction
+                        rs = 1
 
-    if flag2 == 1:
-        if not solve(grid, 0, 0):
-            error = 1
-        else:
-            rs = 1
-        flag2 = 0
-    if val != 0:
-        draw_val(val)
-        # print(x)
-        # print(y)
-        if valid(grid, int(x), int(y), val):
-            grid[int(x)][int(y)] = val
-            flag1 = 0
-        else:
-            grid[int(x)][int(y)] = 0
-            raise_error2()
-        val = 0
+                # Press 'b' to crack game, algorithm using depth first search (baseline model)
+                if event.key == pygame.K_d:
 
-    if error == 1:
-        raise_error1()
-    if rs == 1:
-        result()
-    draw()
-    if flag1 == 1:
-        draw_box()
-    instruction()
+                    start_ = time.time()
+                    grid = np.array(grid)
+                    for i in range(9):
+                        for j in range(9):
+                            if grid[i][j] != 0:
+                                setallflag(i, j, grid[i][j], 1)
+                            else:
+                                blankpos.append((i, j))
+                    if Dfs(len(blankpos) - 1):
+                        rowFlag = np.zeros((9, 10), dtype=int)
+                        colFlag = np.zeros((9, 10), dtype=int)
+                        blockFlag = np.zeros((9, 10), dtype=int)
+                        blankpos = []
+                        print(f"INFO: Algorithm Genetic Solver, Time used: {time.time() - start_:.2f} secs,"
+                              f"DFS loop number: {dfsLoopNum}.")
 
-    # Update window
-    pygame.display.update()
+        # Display algorithm
+        if flag2 == 1:
+            if not solve(grid, 0, 0):
+                error = 1
+            else:
+                rs = 1
+            flag2 = 0
+        if val != 0:
+            draw_val(val)
+            # print(x)
+            # print(y)
+            if valid(grid, int(x), int(y), val):
+                grid[int(x)][int(y)] = val
+                flag1 = 0
+            else:
+                grid[int(x)][int(y)] = 0
+                raise_error2()
+            val = 0
+        if error == 1:
+            raise_error1()
+        if rs == 1:
+            result()
+        draw()
+        if flag1 == 1:
+            draw_box()
+        instruction()
 
-# Quit pygame window
-pygame.quit()
+        # Update window
+        pygame.display.update()
+
+
+if __name__ == '__main__':
+    main()
+    # Quit pygame window
+    pygame.quit()
