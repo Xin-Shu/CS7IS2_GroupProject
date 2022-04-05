@@ -175,4 +175,4 @@ def exportSeries(ch):
 
 
 if __name__ == "__main__":
-    exportSeries()
+    exportSeries(1)

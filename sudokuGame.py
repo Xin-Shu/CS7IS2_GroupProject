@@ -10,7 +10,7 @@ from scripts import inferenceSudoku
 from scripts import solver
 from scripts.geneticSolver import SudokuSolver
 
-model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
+# model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
 
 # initialise the pygame font
 pygame.font.init()
@@ -117,7 +117,7 @@ def solve(grid, i, j):
             return True
     pygame.event.pump()
     for it in range(1, 10):
-        if valid(grid, i, j, it) == True:
+        if valid(grid, i, j, it):
             grid[i][j] = it
             global x, y
             x = i
@@ -152,7 +152,7 @@ def instruction():
 
 # Display options when solved
 def result():
-    text1 = font1.render("FINISHED PRESS R or D", 1, (0, 0, 0))
+    text1 = font1.render("FINISHED PRESS R or D", 1, (255, 0, 0))
     screen.blit(text1, (20, 570))
 
 
@@ -210,28 +210,29 @@ while run:
                 val = 9
             if event.key == pygame.K_RETURN:
                 flag2 = 1
-            # If 'ctrl' + 1, reset grid to 'easy' mode
-            if event.key == pygame.K_1 and pygame.key.get_mods():
+            # If 'q', reset grid to 'easy' mode
+            if event.key == pygame.K_q:
+                print(pygame.key.get_mods())
                 rs = 0
                 error = 0
                 flag2 = 0
                 grid = Sudoku.exportSeries(1)
 
-            # If 'ctrl' + 2, reset grid to 'medium' mode
-            if event.key == pygame.K_2 and pygame.key.get_mods():
+            # If 'w', reset grid to 'medium' mode
+            if event.key == pygame.K_w:
                 rs = 0
                 error = 0
                 flag2 = 0
                 grid = Sudoku.exportSeries(2)
-            # If 'ctrl' + 3, reset grid to 'hard' mode
-            if event.key == pygame.K_3 and pygame.key.get_mods():
+            # If 'e', reset grid to 'hard' mode
+            if event.key == pygame.K_e:
                 rs = 0
                 error = 0
                 flag2 = 0
                 grid = Sudoku.exportSeries(3)
 
             # If D is pressed reset the board to defauet
-            if event.key == pygame.K_d:
+            if event.key == pygame.K_o:
                 rs = 0
                 error = 0
                 flag2 = 0
@@ -251,14 +252,16 @@ while run:
             if event.key == pygame.K_l:
                 grid = np.array(grid)
                 start_ = time.time()
+                model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
+                print(f"INFO: Loaded DNN pre-trained model, time used: {time.time() - start_}")
                 prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
                 if prediction is not None:
                     print(prediction)
-                    print("INFO: Algorithm DNN, Time used: {:6.2f} s".format(time.time() - start_))
+                    print("INFO: Algorithm DNN, Time used: {:.2f} s".format(time.time() - start_))
                     grid = prediction
                     rs = 1
 
-            # Press 'l' to crack game, algorithm using 'inferenceSudoku'
+            # Press 'l' to crack game, algorithm using 'ac3' and 'backTracking'
             if event.key == pygame.K_a:
                 digitCount, gridTemp = 0, ''
                 for i in range(0, len(grid)):
@@ -266,7 +269,9 @@ while run:
                         gridTemp += str(grid[i][j])
                 print(gridTemp)
                 grid = solver.solve(gridTemp, 1, 1)
-            if event.key == pygame.K_g:  # Press <g> for genetic solver
+
+            # Press 'g' for genetic solver
+            if event.key == pygame.K_g:
                 grid = np.array(grid)
                 print("Solving using genetic algorithm...")
                 start_ = time.time()
@@ -278,6 +283,22 @@ while run:
                     print("INFO: Algorithm Genetic Solver, Time used: {:6.2f} s".format(time.time() - start_))
                     grid = prediction
                     rs = 1
+
+            # Press 'b' to crack game, algorithm using depth first search (baseline model)
+            if event.key == pygame.K_d:
+                from scripts.DFS_suduku import exportResult
+                start_ = time.time()
+                grid = np.array(grid)
+                print('grid: ', grid)
+                prediction = exportResult(grid)
+                print('prediction: ', prediction)
+                if prediction is not None:
+                    grid = prediction
+                    print("INFO: Algorithm DFS, Time used: {:6.2f} s".format(time.time() - start_))
+                    rs = 1
+                else:
+                    grid = prediction
+                    error = 1
 
     if flag2 == 1:
         if not solve(grid, 0, 0):
