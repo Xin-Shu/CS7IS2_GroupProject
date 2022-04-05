@@ -29,7 +29,7 @@ dif = 500 / 9
 # Default Sudoku Board.
 grid = Sudoku.exportSeries(1)
 
-boardIN = np.zeros((9, 9), dtype=int)
+# Some global variables for DFS
 rowFlag = np.zeros((9, 10), dtype=int)
 colFlag = np.zeros((9, 10), dtype=int)
 blockFlag = np.zeros((9, 10), dtype=int)
@@ -314,7 +314,7 @@ def main():
                     prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
                     if prediction is not None:
                         print(prediction)
-                        print("INFO: Algorithm DNN, Time used: {:.2f} s".format(time.time() - start_))
+                        print(f"INFO: Algorithm DNN, Time used: {time.time() - start_:.4f} secs")
                         grid = prediction
                         rs = 1
 
@@ -357,7 +357,7 @@ def main():
                         colFlag = np.zeros((9, 10), dtype=int)
                         blockFlag = np.zeros((9, 10), dtype=int)
                         blankpos = []
-                        print(f"INFO: Algorithm Genetic Solver, Time used: {time.time() - start_:.2f} secs,"
+                        print(f"INFO: Algorithm Depth First Search, Time used: {time.time() - start_:.4f} secs,"
                               f"DFS loop number: {dfsLoopNum}.")
 
         # Display algorithm
