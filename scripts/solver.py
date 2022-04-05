@@ -4,7 +4,7 @@ from scripts.sudoku import Sudoku
 from scripts.ac3 import AC3
 from scripts.backtrack import recursive_backtrack_algorithm
 from scripts.utils import fetch_sudokus, print_grid
-import numpy as
+import numpy as np
 
 """
 default sudokus' grid
