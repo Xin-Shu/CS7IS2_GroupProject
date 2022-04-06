@@ -19,14 +19,21 @@ This is a GitHub repository which codes and analysis are submitted in partial fu
   - On AMD Ryzen and Radeon core: tensorflow-directml 1.15.5, but require version of Python to be not higher than 3.6.*
 
 ## Usage
-Clone git repository:\
-`git clone https://github.com/Xin-Shu/CS7IS2_GroupProject.git`
+Clone git repository:
+```
+git clone https://github.com/Xin-Shu/CS7IS2_GroupProject.git
+```
 
 With an installed conda environmnet or python virtual environment:\
-`pip install ./requirement.txt`
+```
+pip install ./requirement.txt
+```
+
 
 Compile sudoku game\
-`python sudokuGame.py`
+```
+python sudokuGame.py
+```
 
 To use algorithm on the game:
 - Press `q` to set an Easy level sudoku puzzle with up to 35 blanks.
