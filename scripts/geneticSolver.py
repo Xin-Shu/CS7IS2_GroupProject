@@ -14,6 +14,7 @@ class SudokuSolver(object):
     """
 
     def __init__(self):
+        self.population = Population()
         self.given = None
         return
 
@@ -40,7 +41,6 @@ class SudokuSolver(object):
             return []
 
         # Create initial population
-        self.population = Population()
         if self.population.seed(populations, self.given) == 1:
             pass
         else:
@@ -53,12 +53,12 @@ class SudokuSolver(object):
             best_fitness = 0.0
             for c in range(0, populations):
                 fitness = self.population.candidates[c].fitness
-                if (fitness == 1):
+                if fitness == 1:
                     print("Solution found! (generation=%d)" % generation)
                     return self.population.candidates[c]
 
                 # Find the best fitness and corresponding chromosome
-                if (fitness > best_fitness):
+                if fitness > best_fitness:
                     best_fitness = fitness
 
             # Create the next population
@@ -79,7 +79,7 @@ class SudokuSolver(object):
                 parent1 = t.compete(self.population.candidates)
                 parent2 = t.compete(self.population.candidates)
 
-                ## Cross-over.
+                # Cross-over.
                 cc = CycleCrossover()
                 child1, child2 = cc.crossover(parent1, parent2, crossover_rate=1.0)
 
@@ -88,9 +88,9 @@ class SudokuSolver(object):
                 old_fitness = child1.fitness
                 success = child1.mutate(mutation_rate, self.given)
                 child1.update_fitness()
-                if (success):
+                if success:
                     mutations += 1
-                    if (child1.fitness > old_fitness):  # Used to calculate the relative success rate of mutations.
+                    if child1.fitness > old_fitness:  # Used to calculate the relative success rate of mutations.
                         phi = phi + 1
 
                 # Mutate child2.
@@ -98,9 +98,9 @@ class SudokuSolver(object):
                 old_fitness = child2.fitness
                 success = child2.mutate(mutation_rate, self.given)
                 child2.update_fitness()
-                if (success):
+                if success:
                     mutations += 1
-                    if (child2.fitness > old_fitness):  # Used to calculate the relative success rate of mutations.
+                    if child2.fitness > old_fitness:  # Used to calculate the relative success rate of mutations.
                         phi = phi + 1
 
                 # Add children to new population.
@@ -117,28 +117,28 @@ class SudokuSolver(object):
 
             # Calculate new adaptive mutation rate (based on Rechenberg's 1/5 success rule).
             # This is to stop too much mutation as the fitness progresses towards unity.
-            if (mutations == 0):
+            if mutations == 0:
                 phi = 0
             else:
                 phi = phi / mutations
 
-            if (phi > 0.2):
+            if phi > 0.2:
                 sigma = sigma / 0.998
-            elif (phi < 0.2):
+            elif phi < 0.2:
                 sigma = sigma * 0.998
 
             mutation_rate = abs(np.random.normal(loc=0.0, scale=sigma, size=None))
 
             # Check for stale population.
             self.population.sort()
-            if (self.population.candidates[0].fitness != self.population.candidates[1].fitness):
+            if self.population.candidates[0].fitness != self.population.candidates[1].fitness:
                 stale = 0
             else:
                 stale += 1
 
             # Re-seed the population if 100 generations have passed
             # with the fittest two candidates always having the same fitness.
-            if (stale >= 100):
+            if stale >= 100:
                 self.population.seed(populations, self.given)
                 stale = 0
                 sigma = 1

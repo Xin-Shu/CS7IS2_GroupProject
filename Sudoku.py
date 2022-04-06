@@ -68,7 +68,7 @@ def Generate_Unsolved_Puzzle(board, difficulty):
         upper_limit = 41
     else:
         print("Hard Difficulty Puzzle Generating...\n")
-        upper_limit = 47
+        upper_limit = 52
     while True:
         i = random.randint(0, 8)
         j = random.randint(0, 8)
