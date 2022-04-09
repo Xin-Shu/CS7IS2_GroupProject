@@ -211,7 +211,7 @@ def main():
     while run:
 
         # White color background
-        screen.fill((170, 170, 170))
+        screen.fill((255, 255, 255))
         # Loop through the events stored in event.get()
         for event in pygame.event.get():
             # Quit the game windows
@@ -276,7 +276,6 @@ def main():
                     error = 0
                     flag2 = 0
                     grid = Sudoku.exportSeries(3)
-
                 # Press 'l' to crack game, algorithm using 'backtracking'
                 if event.key == pygame.K_s:
                     start_ = time.time()
@@ -284,7 +283,7 @@ def main():
                     solve(grid, 0, 0)
                     currentState = Sudoku.Find_Empty_Cell(grid)
                     if currentState[2] == 0:
-                        print("INFO: Algorithm BackTracking, Time used: {:.2f} s".format(time.time() - start_))
+                        print(f"INFO: Algorithm Backtracking, Time used: {round((time.time() - start_) * 1000)} msecs")
                         rs = 1
 
                 # Press 'l' to crack game, algorithm using 'DNN inference'
@@ -293,11 +292,11 @@ def main():
                     start_ = time.time()
                     if not model:
                         model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
-                        print(f"INFO: Loaded DNN pre-trained model, time used: {time.time() - start_}")
+                        print(f"INFO: Loaded DNN pre-trained model, time used: {round((time.time() - start_) * 1000)}")
                     prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
                     if prediction is not None:
                         print(prediction)
-                        print(f"INFO: Algorithm DNN, Time used: {time.time() - start_:.4f} secs")
+                        print(f"INFO: Algorithm DNN, Time used: {round((time.time() - start_) * 1000)} msecs")
                         grid = prediction
                         rs = 1
 
@@ -309,7 +308,7 @@ def main():
                             gridTemp += str(grid[i][j])
                     start_ = time.time()
                     solution = ac3Solver.solve(gridTemp, 1, 1)
-                    print("INFO: Algorithm ac-3 Solver, Time used: {:6.2f} s".format(time.time() - start_))
+                    print(f"INFO: Algorithm ac-3 solver, Time used: {round((time.time() - start_) * 1000)} msecs")
                     grid = list(ac3Solver.list_split(solution, 9))
                     rs = 1
 
@@ -323,7 +322,7 @@ def main():
                     if solution:
                         prediction = solution.values
                         print(prediction)
-                        print("INFO: Algorithm Genetic Solver, Time used: {:6.2f} s".format(time.time() - start_))
+                        print(f"INFO: Algorithm Genetic solver, Time used: {round((time.time() - start_) * 1000)} msecs")
                         grid = prediction
                         rs = 1
 
@@ -343,7 +342,8 @@ def main():
                         colFlag = np.zeros((9, 10), dtype=int)
                         blockFlag = np.zeros((9, 10), dtype=int)
                         blankpos = []
-                        print(f"INFO: Algorithm Depth First Search, Time used: {time.time() - start_:.4f} secs,"
+                        rs = 1
+                        print(f"INFO: Algorithm DFS, Time used: {round((time.time() - start_) * 1000)} msecs"
                               f"DFS loop number: {dfsLoopNum}.")
 
         # Display algorithm

@@ -24,13 +24,13 @@ def dnnArchitecture(inputSize, numClasses):
 
     model = keras.models.Sequential()
 
-    model.add(layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same', input_shape=(9, 9, 1)))
+    model.add(layers.Conv2D(32, kernel_size=(3, 3), activation='relu', padding='same', input_shape=(9, 9, 1)))
     model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'))
     model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(128, kernel_size=(1, 1), activation='relu', padding='same'))
 
-    model.add(layers.Dropout(0.3))
+    model.add(layers.Dropout(0.4))
     model.add(layers.Flatten())
     model.add(layers.Dense(81 * 9))
     model.add(layers.Reshape((-1, 9)))
@@ -49,7 +49,7 @@ def trainModel(modelPath, trainData, testTarget, inputSize, numClasses):
     callbacks = [
         keras.callbacks.ModelCheckpoint(modelPath, save_best_only=True)
     ]
-    epochs = 1
+    epochs = 30
     history = model.fit(
         trainData, testTarget, validation_split=0.2,
         batch_size=512, epochs=epochs, callbacks=callbacks
