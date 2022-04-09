@@ -51,4 +51,7 @@ To use algorithms on the game:
 - Genetic Algorithm, average solving time:
 - Deep Neural Network, average solving time:
 
+## Links
+- Link to the presentation video: https://drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
+
 ## Contributions
