@@ -74,15 +74,11 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 - Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs
 
 
-## Reference
-- Link to original AC-3 algorithm repository: 
-```
-github.com/stressGC/Python-AC3-Backtracking-CSP-Sudoku-Solver
-```
-- Link to original CNN algorithm repository: 
-```
-
-```
-- Link to original genetic algorithm repository: 
-```
+## Referred GitHub repositories or websites
+- Sudoku game code:
+  - puzzle generating: ```github.com/sarthak1905/sudoku-game-python```   
+  - GUI display: ```geeksforgeeks.org/building-and-visualizing-sudoku-game-using-pygame/```
+- AC-3 algorithm: ```github.com/stressGC/Python-AC3-Backtracking-CSP-Sudoku-Solver```
+- CNN architecture: ```github.com/Kyubyong/sudoku```
+- Genetic algorithm:``````
 
