@@ -34,7 +34,7 @@ rowFlag = np.zeros((9, 10), dtype=int)
 colFlag = np.zeros((9, 10), dtype=int)
 blockFlag = np.zeros((9, 10), dtype=int)
 blankpos = []
-dfsLoopNum = 0
+dfsLoopNum, backTrackLoopNum = 0, 0
 
 # Load test fonts for future use
 font1 = pygame.font.SysFont("comicsans", 15)
@@ -113,6 +113,8 @@ def valid(m, i, j, val):
 
 # Solves the sudoku board using Backtracking Algorithm
 def solve(grid, i, j):
+    global backTrackLoopNum
+    backTrackLoopNum += 1
     while grid[i][j] != 0:
         if i < 8:
             i += 1
@@ -133,7 +135,6 @@ def solve(grid, i, j):
             draw(grid)
             draw_box()
             pygame.display.update()
-            pygame.time.delay(20)
             if solve(grid, i, j) == 1:
                 return True
             else:
@@ -144,7 +145,6 @@ def solve(grid, i, j):
             draw(grid)
             draw_box()
             pygame.display.update()
-            pygame.time.delay(50)
     return False
 
 
@@ -201,7 +201,7 @@ def Dfs(n):
 def main():
 
     global grid, x, y
-    global rowFlag, colFlag, blockFlag, blankpos, dfsLoopNum
+    global rowFlag, colFlag, blockFlag, blankpos, dfsLoopNum, backTrackLoopNum
 
     flag1, flag2 = 0, 0
     rs, error, val = 0, 0, 0
@@ -283,8 +283,10 @@ def main():
                     solve(grid, 0, 0)
                     currentState = Sudoku.Find_Empty_Cell(grid)
                     if currentState[2] == 0:
-                        print(f"INFO: Algorithm Backtracking, Time used: {round((time.time() - start_) * 1000)} msecs")
+                        print(f"INFO: Algorithm Backtracking, Time used: {round((time.time() - start_) * 1000)} msecs"
+                              f"Backtracking loop number: {backTrackLoopNum}.")
                         rs = 1
+                        backTrackLoopNum = 0
 
                 # Press 'l' to crack game, algorithm using 'CNN inference'
                 if event.key == pygame.K_l:
@@ -345,6 +347,7 @@ def main():
                         rs = 1
                         print(f"INFO: Algorithm DFS, Time used: {round((time.time() - start_) * 1000)} msecs"
                               f"DFS loop number: {dfsLoopNum}.")
+                        dfsLoopNum = 0
 
         # Display algorithm
         if flag2 == 1:
