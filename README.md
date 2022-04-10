@@ -16,7 +16,7 @@ This is a GitHub repository which codes and analysis are submitted in partial fu
 - pygame 2.1.2
 - tensorflow:
   - On Intel and NVidia core: 1.15.5 (CPU-only or accelerated by CUDA v11.x & cuDNN v8.3.x)
-  - On AMD Ryzen and Radeon core: tensorflow-directml 1.15.5, but require version of Python to be not higher than 3.6.*
+  - On AMD Ryzen and Radeon core: tensorflow-directml 1.15.5, but require version of Python to be not higher than 3.8.*.
 
 ## Addressed and solved game
 Sudoku is a logic-based, combinatorial number-placement puzzle. In classic Sudoku, the objective is to fill a 9 × 9 
@@ -70,5 +70,5 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 - Bu Fan:
 - Xin Lyu:baseline (Depth-first Search) algorithm development, report writing.
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
-settle project GitHub repository, voice over the presentation video.
+  settle project GitHub repository, voice over the presentation video, report writing.
 - Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs
