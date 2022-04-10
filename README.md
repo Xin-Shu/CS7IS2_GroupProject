@@ -72,3 +72,17 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
   settle project GitHub repository, voice over the presentation video, report writing.
 - Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs
+
+
+## Reference
+- Link to original AC-3 algorithm repository: 
+```
+github.com/stressGC/Python-AC3-Backtracking-CSP-Sudoku-Solver
+```
+- Link to original CNN algorithm repository: 
+```
+
+```
+- Link to original genetic algorithm repository: 
+```
+
