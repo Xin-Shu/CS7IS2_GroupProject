@@ -61,9 +61,12 @@ github.com/Xin-Shu/CS7IS2_GroupProject
 ```
 overleaf.com/read/mpsjcjhrgcqp
 ```
-- Link to our presentation video: 
+- Links to our presentation video: 
 ```
 drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
+```
+```
+https://github.com/Xin-Shu/CS7IS2_GroupProject/blob/main/Presentation.zip
 ```
 
 ## Contributions
