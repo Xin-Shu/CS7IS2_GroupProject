@@ -68,7 +68,7 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 
 ## Contributions
 - Bu Fan:
-- Xin Lyu:
+- Xin Lyu:baseline (Depth-first Search) algorithm development, report writing.
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
 settle project GitHub repository, voice over the presentation video.
 - Yanxiang Chen:
