@@ -286,17 +286,17 @@ def main():
                         print(f"INFO: Algorithm Backtracking, Time used: {round((time.time() - start_) * 1000)} msecs")
                         rs = 1
 
-                # Press 'l' to crack game, algorithm using 'DNN inference'
+                # Press 'l' to crack game, algorithm using 'CNN inference'
                 if event.key == pygame.K_l:
                     grid = np.array(grid)
                     start_ = time.time()
                     if not model:
                         model = tf.keras.models.load_model('dataset/trainedCNNModel.h5')
-                        print(f"INFO: Loaded DNN pre-trained model, time used: {round((time.time() - start_) * 1000)}")
+                        print(f"INFO: Loaded CNN pre-trained model, time used: {round((time.time() - start_) * 1000)}")
                     prediction = inferenceSudoku.inference_sudoku(model, grid, 1)
                     if prediction is not None:
                         print(prediction)
-                        print(f"INFO: Algorithm DNN, Time used: {round((time.time() - start_) * 1000)} msecs")
+                        print(f"INFO: Algorithm CNN, Time used: {round((time.time() - start_) * 1000)} msecs")
                         grid = prediction
                         rs = 1
 

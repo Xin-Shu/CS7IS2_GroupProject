@@ -52,6 +52,22 @@ To use algorithms on the game:
 - Deep Neural Network, average solving time:
 
 ## Links
-- Link to the presentation video: https://drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
+- Link to our GitHub repository: 
+```
+github.com/Xin-Shu/CS7IS2_GroupProject
+```
+- Link to our Overleaf report: 
+```
+overleaf.com/read/mpsjcjhrgcqp
+```
+- Link to our presentation video: 
+```
+drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
+```
 
 ## Contributions
+- Bu Fan:
+- Xin Lyu:
+- Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
+settle project GitHub repository, voice over the presentation video.
+- Yanxiang Chen:
