@@ -49,8 +49,8 @@ To use algorithms on the game:
 
 ## Used AI Algorithms 
 - AC-3 Backtracking, average solving time: 48 msec
-- Genetic Algorithm, average solving time:
-- Deep Neural Network, average solving time: 1811 msec 
+- Genetic Algorithm, average solving time: 76 msec
+- Deep Neural Network, average solving time: 1160 msec
 
 ## Links
 - Link to our GitHub repository: 
@@ -71,4 +71,14 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 - Xin Lyu:baseline (Depth-first Search) algorithm development, report writing.
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
   settle project GitHub repository, voice over the presentation video, report writing.
-- Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs
+- Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs.
+
+
+## Referred GitHub repositories or websites
+- Sudoku game code:
+  - puzzle generating: ```github.com/sarthak1905/sudoku-game-python```   
+  - GUI display: ```geeksforgeeks.org/building-and-visualizing-sudoku-game-using-pygame/```
+- AC-3 algorithm: ```github.com/stressGC/Python-AC3-Backtracking-CSP-Sudoku-Solver```
+- CNN architecture: ```github.com/Kyubyong/sudoku```
+- Genetic algorithm:```github.com/chinyan/Genetic-Algorithm-based-Sudoku-Solver```
+
