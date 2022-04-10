@@ -48,7 +48,7 @@ To use algorithms on the game:
 - Press `g` to crack the game using algorithm **Genetic Solver**.
 
 ## Used AI Algorithms 
-- Backtracking, average solving time:
+- AC-3 Backtracking, average solving time: 48 msec
 - Genetic Algorithm, average solving time:
 - Deep Neural Network, average solving time: 1811 msec 
 
@@ -67,7 +67,7 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 ```
 
 ## Contributions
-- Bu Fan:
+- Bu Fan: AC-3 algorithm development, report writing.
 - Xin Lyu:baseline (Depth-first Search) algorithm development, report writing.
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
   settle project GitHub repository, voice over the presentation video, report writing.
