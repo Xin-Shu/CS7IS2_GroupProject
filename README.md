@@ -42,6 +42,7 @@ To use algorithms on the game:
 - Press `q` to set an Easy level sudoku puzzle with up to 35 blanks.
 - Press `w` to set a medium level sudoku puzzle with up to 41 blanks.
 - Press `e` to set a hard level sudoku puzzle with up to 52 blanks.
+- Press `a` to crack the game using algorithm **AC-3 solver**.
 - Press `s` to crack the game using algorithm **Backtracking**.
 - Press `l` to crack the game using algorithm **Deep Neural Network**, with a given pretrained model.
 - Press `g` to crack the game using algorithm **Genetic Solver**.
