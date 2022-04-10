@@ -15,7 +15,7 @@ This is a GitHub repository which codes and analysis are submitted in partial fu
 - numpy 1.22.3
 - pygame 2.1.2
 - tensorflow:
-  - On Intel and NVidia core: 1.15.5
+  - On Intel and NVidia core: 1.15.5 (CPU-only or accelerated by CUDA v11.x & cuDNN v8.3.x)
   - On AMD Ryzen and Radeon core: tensorflow-directml 1.15.5, but require version of Python to be not higher than 3.6.*
 
 ## Addressed and solved game
@@ -50,7 +50,7 @@ To use algorithms on the game:
 ## Used AI Algorithms 
 - Backtracking, average solving time:
 - Genetic Algorithm, average solving time:
-- Deep Neural Network, average solving time:
+- Deep Neural Network, average solving time: 1811 msec 
 
 ## Links
 - Link to our GitHub repository: 
@@ -71,4 +71,4 @@ drive.google.com/file/d/13ugbmA0oZOj8Vhty6x3yIHxstCvHyJrI/view?usp=sharing
 - Xin Lyu:baseline (Depth-first Search) algorithm development, report writing.
 - Xin Shu: proposal and development of CNN solution, refine the sudoku game scripts from forked repositories, 
 settle project GitHub repository, voice over the presentation video.
-- Yanxiang Chen:
+- Yanxiang Chen: development of Genetic Algorithm, report writing, compatibility checking of codes in different envs
